@@ -21,19 +21,16 @@ mkdir -p output
 # Note: Upstream repositories use different naming conventions for their releases.
 # You will likely need to adjust the filename format below.
 
-# Example for fetching a linux tar.gz release:
-DOWNLOAD_URL="https://github.com/${UPSTREAM_REPO}/releases/download/v${VERSION}/${PACKAGE_NAME}-${VERSION}-linux-${ARCH}.tar.gz"
+# Example for fetching a linux gz release:
+DOWNLOAD_URL="https://github.com/${UPSTREAM_REPO}/releases/download/v${VERSION}/${PACKAGE_NAME}-v${VERSION}-linux-${ARCH}.gz"
 echo "Downloading from $DOWNLOAD_URL"
 
 # Uncomment and adjust the following lines for real packaging:
-# wget -qO archive.tar.gz "$DOWNLOAD_URL"
-# tar -xzf archive.tar.gz -C "$BUILD_DIR/usr/bin/" $PACKAGE_NAME
-# chmod +x "$BUILD_DIR/usr/bin/$PACKAGE_NAME"
-
-# Fallback fake binary (remove this when implementing your actual package!)
-echo "#!/bin/sh" > "$BUILD_DIR/usr/bin/$PACKAGE_NAME"
-echo "echo Hello from $PACKAGE_NAME version $VERSION" >> "$BUILD_DIR/usr/bin/$PACKAGE_NAME"
+wget -qO archive.gz "$DOWNLOAD_URL"
+gunzip -c archive.gz > "$BUILD_DIR/usr/bin/$PACKAGE_NAME"
 chmod +x "$BUILD_DIR/usr/bin/$PACKAGE_NAME"
+rm archive.gz
+
 # -------------------------------------------------------------------------------
 
 # Create control file
